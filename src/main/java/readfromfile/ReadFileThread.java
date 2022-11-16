@@ -2,6 +2,7 @@ package readfromfile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ReadFileThread implements Runnable{
@@ -11,11 +12,12 @@ public class ReadFileThread implements Runnable{
 
     @Override
     public void run() {
-        try {
-            scanner = new Scanner(new File(FILE_NAME));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        openScanner();
+        readFile();
+        scanner.close();
+    }
+
+    private void readFile() {
         int counter = 0;
         while(scanner.hasNext()){
             if(counter<2){
@@ -26,7 +28,19 @@ public class ReadFileThread implements Runnable{
                 counter = 0;
                 Thread.yield();
             }
+            try {
+                Thread.sleep(new Random().nextInt(1000));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        scanner.close();
+    }
+
+    private void openScanner() {
+        try {
+            scanner = new Scanner(new File(FILE_NAME));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
