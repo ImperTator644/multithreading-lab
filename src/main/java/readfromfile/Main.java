@@ -3,7 +3,8 @@ package readfromfile;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Main {
+
+public class Main{
     public static void main(String[] args) {
         int numberOfThreads = 0;
         try {
@@ -16,6 +17,7 @@ public class Main {
         for (int i = 0; i < numberOfThreads; i++){
             exec.execute(new ReadFileThread());
         }
+
         exec.shutdown();
     }
 }
