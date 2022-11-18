@@ -33,6 +33,8 @@
                 <scope>test</scope>
             </dependency>
 
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -45,6 +47,18 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.bartlomiej-gora</groupId>
+            <artifactId>RPNLibrary</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
 
     </dependencies>
