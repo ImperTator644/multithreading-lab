@@ -1,7 +1,5 @@
 package watergame;
 
-import calculateequation.Equation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +14,8 @@ public class WaterGameMain {
     public static void main(String[] args) {
         ExecutorService exec = Executors.newFixedThreadPool(names.size());
 
-        for(int i=0; i<names.size();i++) {
-            exec.submit(new FutureTask<GlassOfWater>(new DrinkWaterThread(names.get(i))) {
+        for (String name : names) {
+            exec.submit(new FutureTask<>(new DrinkWaterThread(name)) {
 
                 @Override
                 public void done() {
