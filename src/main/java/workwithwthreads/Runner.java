@@ -18,5 +18,5 @@ public class Runner {
         return runnerName + " finished in : " + runnerTime;
     }
 
-    public boolean isDone(){return distanceToFinish > 0;}
+    public boolean isDone(){return distanceToFinish <= 0;}
 }

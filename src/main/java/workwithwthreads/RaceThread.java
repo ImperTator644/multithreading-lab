@@ -18,7 +18,7 @@ public class RaceThread implements Callable<Runner> {
         Random random = new Random();
         Runner runner = new Runner(runnerName,random.nextInt(12) + 4, Race.getRaceLength(), time);
 
-        while(runner.isDone()){
+        while(!runner.isDone()){
             if(Thread.currentThread().isInterrupted()){
                 System.out.println(this + " interrupted!");
                 return null;
