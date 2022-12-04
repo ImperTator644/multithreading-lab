@@ -1,11 +1,13 @@
-package ticketreservation;
+package tickets.ticketreservsynchro;
 
 import lombok.Getter;
+import tickets.ticketreservation.ReserveTicketThread;
+import tickets.Ticket;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TicketReservationMain {
+public class TicketSynchroReservationMain {
 
     @Getter
     private static Ticket[] tickets;
@@ -27,7 +29,7 @@ public class TicketReservationMain {
         ExecutorService exec = Executors.newFixedThreadPool(numberOfThreads);
 
         for (int i = 0; i < numberOfThreads; i++){
-            exec.execute(new ReserveTicketThread());
+            exec.execute(new SynchroReserveTicketThread());
         }
 
         exec.shutdown();
