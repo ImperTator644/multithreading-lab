@@ -1,54 +1,43 @@
 package calculateequation;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EquationWriter {
 
-    public void appendResult(Equation equation) {
-        List<String> lines;
+    public static void appendResult(Equation equation) {
+        List<String> linesRead;
+        List<String> lines = new ArrayList<>();
         try {
-            lines = Files.readAllLines(Path.of("src/main/resources/exercise-5.txt"), StandardCharsets.UTF_8);
+            linesRead = Files.readAllLines(Path.of("src/main/resources/exercise-5.txt"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        linesRead.forEach(l -> {
+            String n = StringUtils.deleteWhitespace(l);
+            lines.add(n);
+        });
         for (String line : lines) {
+            line = StringUtils.deleteWhitespace(line);
             if (line.contains(equation.getEquation())) {
                 int index = lines.indexOf(line);
-                StringBuilder equationLine = new StringBuilder(lines.get(index));
+                StringBuilder equationLine = new StringBuilder(linesRead.get(index));
                 equationLine.append(" ").append(equation.getResult());
-                lines.remove(index);
-                lines.add(index, equationLine.toString());
+                linesRead.remove(index);
+                linesRead.add(index, equationLine.toString());
                 try {
-                    Files.write(Path.of("src/main/resources/exercise-5.txt"), lines, StandardCharsets.UTF_8);
+                    Files.write(Path.of("src/main/resources/exercise-5.txt"), linesRead, StandardCharsets.UTF_8);
                     return;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
-        }
-    }
-
-    public static boolean checkIfFIleCompleted() {
-        List<String> lines = null;
-        try {
-            while (lines == null || lines.isEmpty()) {
-                lines = Files.readAllLines(Path.of("src/main/resources/exercise-5.txt"), StandardCharsets.UTF_8);
-            }
-            boolean isDone = true;
-            for (String line : lines) {
-                int index = line.indexOf('=') + 1;
-                String result = line.substring(index);
-                if (result.isBlank()) {
-                    isDone = false;
-                }
-            }
-            return isDone;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 }
