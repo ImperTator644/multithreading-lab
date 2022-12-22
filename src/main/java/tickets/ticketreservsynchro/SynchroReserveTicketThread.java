@@ -1,28 +1,32 @@
-package ticketreservation;
+package tickets.ticketreservsynchro;
+
+import tickets.Ticket;
+import tickets.TicketReservation;
+import tickets.ticketreservation.TicketReservationMain;
 
 import java.util.Random;
 
-public class ReserveTicketThread implements Runnable{
+public class SynchroReserveTicketThread implements Runnable{
 
     private int hasTicket = -1;
     private final Random random = new Random();
-    private final TicketReservationService ticketReservationService = TicketReservationService.getInstance();
+    private final TicketReservation ticketReservation = TicketReservationSynchroService.getInstance();
 
     @Override
     public void run() {
-        Ticket[] tickets = TicketReservationMain.getTickets();
+        Ticket[] tickets = TicketSynchroReservationMain.getTickets();
         int ticketNumber;
         while(true){
             try {
-                Thread.sleep(random.nextInt(3000));
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             ticketNumber = random.nextInt(tickets.length);
             if(hasTicket == -1){
-                while(!ticketReservationService.reserveTicket(tickets[ticketNumber], Thread.currentThread())){
+                while(!ticketReservation.reserveTicket(tickets[ticketNumber], Thread.currentThread())){
                     try {
-                        Thread.sleep(random.nextInt(1500));
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -30,7 +34,7 @@ public class ReserveTicketThread implements Runnable{
                 hasTicket = ticketNumber;
             }
             else{
-                ticketReservationService.leaveTicket(tickets[hasTicket], Thread.currentThread());
+                ticketReservation.leaveTicket(tickets[hasTicket], Thread.currentThread());
                 hasTicket = -1;
             }
         }

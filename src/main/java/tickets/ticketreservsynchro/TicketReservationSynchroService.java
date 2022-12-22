@@ -1,18 +1,21 @@
-package ticketreservation;
+package tickets.ticketreservsynchro;
 
-public class TicketReservationService {
-    private static TicketReservationService instance;
+import tickets.TicketReservation;
+import tickets.Ticket;
 
-    private TicketReservationService(){}
+public class TicketReservationSynchroService implements TicketReservation {
+    private static TicketReservationSynchroService instance;
 
-    public static TicketReservationService getInstance(){
+    private TicketReservationSynchroService(){}
+
+    public static TicketReservationSynchroService getInstance(){
         if (instance == null){
-            instance = new TicketReservationService();
+            instance = new TicketReservationSynchroService();
         }
         return instance;
     }
 
-    public boolean reserveTicket(Ticket ticket, Thread thread){
+    public synchronized boolean reserveTicket(Ticket ticket, Thread thread){
         if(!ticket.isReserved()){
             ticket.setReserved(true);
             ticket.setClient(thread.getName());
